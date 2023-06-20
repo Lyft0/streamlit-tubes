@@ -54,17 +54,29 @@ gross_margin = format_number(branch_data['gross margin percentage'].sum())
 
 col2_1, col2_2, col2_3, col2_4 = st.columns(4)
 with col2_1:
-    st.metric("Jumlah Penjualan", total_sales)
+    st.markdown('<p style="text-align: center;">Jumlah Penjualan</p>',
+                unsafe_allow_html=True)
+    st.markdown(
+        f'<h2 style="text-align: center;">{total_sales}</h2>', unsafe_allow_html=True)
 with col2_2:
-    st.metric("Pendapatan Total", total_revenue)
+    st.markdown('<p style="text-align: center;">Pendapatan Total</p>',
+                unsafe_allow_html=True)
+    st.markdown(
+        f'<h2 style="text-align: center;">{total_revenue}</h2>', unsafe_allow_html=True)
 with col2_3:
-    st.metric("Pendapatan Kotor", total_gross_income)
+    st.markdown('<p style="text-align: center;">Pendapatan Kotor</p>',
+                unsafe_allow_html=True)
+    st.markdown(
+        f'<h2 style="text-align: center;">{total_gross_income}</h2>', unsafe_allow_html=True)
 with col2_4:
-    st.metric("Persentase Gross Margin", gross_margin[:-1] + " %")
+    st.markdown('<p style="text-align: center;">Persentase Gross Margin</p>',
+                unsafe_allow_html=True)
+    st.markdown(
+        f'<h2 style="text-align: center;">{gross_margin[:-1]} %</h2>', unsafe_allow_html=True)
 
 # BARIS 3
 
-col3_1, col3_2, col3_3 = st.columns((1.8, 2.4, 0.8))
+col3_1, col3_2, col3_3 = st.columns([1.2, 1.5, 1])
 
 # Menampilkan penjualan dalam rentang periode waktu (Line Plot)
 with col3_1:
@@ -82,8 +94,8 @@ with col3_1:
     # fig6 = px.bar(rating_counts, x="Rating",
     #               y="Count", title="Tingkat Rating yang Diberikan Pelanggan", width=450, height=390)
     # st.plotly_chart(fig6)
-    rating_counts['Color'] = ['red' if rating >
-                              7 else 'blue' for rating in rating_counts['Rating']]
+    rating_counts['Color'] = ['red' if rating >=
+                              8 else 'blue' for rating in rating_counts['Rating']]
 
     fig6 = px.bar(rating_counts, x="Rating", y="Count",
                   title="Tingkat Rating yang Diberikan Pelanggan", width=450, height=390,
@@ -99,7 +111,7 @@ with col3_2:
     category_sales = category_sales.sort_values(by="Quantity", ascending=False)
     fig3 = px.bar(category_sales, x="Quantity", y="Product line",
                   orientation="h", title="Penjualan berdasarkan Kategori Produk",
-                  text="Quantity", width=580, height=400)
+                  text="Quantity", width=550, height=400)
     fig3.update_traces(textposition="auto")
     st.plotly_chart(fig3)
 
@@ -124,9 +136,9 @@ with col3_2:
         lon="Longitude",
         hover_name="City",
         hover_data={"Latitude": False, "Longitude": False, "Quantity": True},
-        zoom=2,
+        zoom=3,
         mapbox_style="open-street-map",
-        width=600, height=600,
+        width=550, height=570,
         title="Penjualan Berdasarkan Lokasi"
     )
     # Mengatur tampilan marker
@@ -150,9 +162,9 @@ with col3_3:
     # Menampilkan Informasi Berdasarkan customer type
     customer_counts = branch_data["Customer type"].value_counts().reset_index()
     customer_counts.columns = ["Customer type", "Count"]
-    fig8 = px.pie(customer_counts, values="Count",
-                  names="Customer type", title="Penjualan Berdasarkan Tipe", width=300, height=280)
-    st.plotly_chart(fig8)
+    fig11 = px.pie(customer_counts, values="Count",
+                   names="Customer type", title="Penjualan Berdasarkan Tipe", width=300, height=280)
+    st.plotly_chart(fig11)
 
     # Menampilkan profiler pelanggan untuk member atau pelanggan biasa (Bar Chart)
     customer_profiler = branch_data.groupby(
@@ -162,6 +174,11 @@ with col3_3:
     fig7.update_traces(textposition="auto")
     st.plotly_chart(fig7)
 
+
+st.markdown(
+    f'<style>.stMarkdown div.stMetric:not(:last-child) {{ margin-bottom: 10px; }}</style>',
+    unsafe_allow_html=True
+)
 
 # # Menampilkan data raw dari setiap penjualan (Tabel)
 # st.subheader("Data Penjualan")
