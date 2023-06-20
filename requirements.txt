@@ -1,2 +1,2 @@
-plotly.express
-geopy.geocoders
+plotly
+geopy
